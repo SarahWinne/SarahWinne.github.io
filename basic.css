@@ -4,6 +4,7 @@ body {
     margin-right: 0px;
     margin-bottom: 0px;
     position: relative;
+    background-color: #E7ECEF;
 }
 
 nav {
@@ -19,7 +20,7 @@ nav ul {
     margin: 0;
     height: 40px;
     line-height: 30px;
-    background-color: #84b3ad;
+    background-color: #023C40;
 }
 
 nav ul li {
@@ -50,5 +51,5 @@ footer {
     padding: 0;
     height: 40px;
     line-height: 30px;
-    background-color: #84b3ad;
+    background-color: #023C40;
   }
