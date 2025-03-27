@@ -9,14 +9,19 @@
 <body>
   <h1>Hello</h1>
   <p>Welcome to <%= title %></p>
+  <button><a href="/notes/new">New</a></button>
 
   <table>
     <% data.forEach(function(user){ %>
         <tr>
             <td><%- user.title %></td>
             <td><%- user.body %></td>
-            <!-- <td><%- user.color %></td>
-            <td><%- user.starred %></td> -->
+            <!-- <td><%- user.color %></td> -->
+            <td><%- user.starred %></td>
+            <td><a href="/notes/<%= user.id %>/edit">Edit</a></td>
+            <td><a href="/notes/<%= user.id %>">Delete</a></td>
+            <td><%- user.id %></td>
+
         </tr>
     <% }); %>
 </table>

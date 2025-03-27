@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/stylesheets/style.css" />
-    <title>New Note</title>
+    <title>Edit Note</title>
 </head>
 <body>
     <!-- title: "Getting Started", 
@@ -12,12 +12,14 @@
     color: "white", 
     starred: true,  -->
 
-    <h2>New Note</h2>
-    <form method="POST" action="/notes">
-        <input type="text" name="title" placeholder="Title" required/>
-        <input type="text" name="body" placeholder="Notes" required/>
+    <h2>Edit Note</h2>
+    <form method="POST" action="/notes/<%= user.id %>/edit">
+        <input type="text" name="title" value="<%= data.title %>"/>
+        <input type="text" name="body" value="<%= data.body %>"/>
         <!-- <input type="color??" name="color" placeholder="Enter email"/> -->
         <input type="checkbox" name="starred" value="true"/>
+        <input type="hidden" name="id" value="<%= data.id %>">
+        <input type="hidden" name="createdAt" value="<%= data.createdAt %>">
         <input type="hidden" name="updatedAt" value="<%= currentDate %>">
         <input type="submit"/>
     </form>
