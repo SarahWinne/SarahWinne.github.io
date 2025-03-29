@@ -13,10 +13,10 @@
     starred: true,  -->
 
     <h2>New Note</h2>
-    <form method="POST" action="/notes">
+    <form method="POST" action="/notes/new">
         <input type="text" name="title" placeholder="Title" required/>
         <input type="text" name="body" placeholder="Notes" required/>
-        <!-- <input type="color??" name="color" placeholder="Enter email"/> -->
+        <input type="color" name="color" value="#ffffff" placeholder="Text color" required/>
         <input type="checkbox" name="starred" value="true"/>
         <input type="hidden" name="updatedAt" value="<%= currentDate %>">
         <input type="submit"/>

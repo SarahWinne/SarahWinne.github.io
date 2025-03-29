@@ -11,20 +11,43 @@
   <p>Welcome to <%= title %></p>
   <button><a href="/notes/new">New</a></button>
 
-  <table>
+  <div class="container">
     <% data.forEach(function(user){ %>
-        <tr>
-            <td><%- user.title %></td>
-            <td><%- user.body %></td>
-            <!-- <td><%- user.color %></td> -->
-            <td><%- user.starred %></td>
+      <div class="flexNote">
+        <% if (user.starred == true) { %>
+          <div class="noteBody" style="background-color: <%=user.color%>; cursor: pointer; border: thick, double" onclick="location.href='/notes/<%= user.id %>/edit';">
+            <h1><%= user.title %></h1>
+            <p><%= user.body %></p>
+            <button href="/notes/<%= user.id %>/delete">Delete</button>
+          </div>
+        <% } else { %>
+          <div class="noteBody" style="background-color: <%=user.color%>; cursor: pointer;" onclick="location.href='/notes/<%= user.id %>/edit';">
+            <h1><%= user.title %></h1>
+            <p><%= user.body %></p>
+            <button href="/notes/<%= user.id %>/delete">Delete</button>
+          </div>
+        <% } %>
+      </div>
+    <% }); %>
+  </div>
+
+  <!-- <table>
+    <% data.forEach(function(user){ %>
+        <tr style="background-color: <%=user.color%>;">
+            <td><%= user.title %></td>
+            <td><%= user.body %></td>
+            <% if (user.starred == true) { %>
+              <td style="background-color: yellow;"><%= user.starred %></td>
+            <% } else { %>
+              <td style="background-color: black;"><%= user.starred %></td>
+            <% } %>
             <td><a href="/notes/<%= user.id %>/edit">Edit</a></td>
-            <td><a href="/notes/<%= user.id %>">Delete</a></td>
-            <td><%- user.id %></td>
+            <td><a href="/notes/<%= user.id %>/delete">Delete</a></td>
+            <td><%= user.id %></td>
 
         </tr>
     <% }); %>
-</table>
+</table> -->
 
   
 </body>

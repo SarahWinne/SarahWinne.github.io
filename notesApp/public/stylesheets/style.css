@@ -3,6 +3,27 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.flexNote {
+  display: flex;
+  flex-wrap: wrap;
+}
+.noteBody {
+  border: 1px solid rgba(0, 0, 0, 0.124);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 20px;
+}
+
+.flexNote div:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 table, td {
   border: 1px solid black;
 }

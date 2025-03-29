@@ -13,11 +13,15 @@
     starred: true,  -->
 
     <h2>Edit Note</h2>
-    <form method="POST" action="/notes/<%= user.id %>/edit">
-        <input type="text" name="title" value="<%= data.title %>"/>
-        <input type="text" name="body" value="<%= data.body %>"/>
-        <!-- <input type="color??" name="color" placeholder="Enter email"/> -->
-        <input type="checkbox" name="starred" value="true"/>
+    <form method="POST" action="/notes/<%= data.id %>/edit">
+        <input type="text" name="title" value="<%= data.title %>" required/>
+        <input type="text" name="body" value="<%= data.body %>" required/>
+        <input type="color" name="color" value="<%= data.color %>"/>
+        <% if (data.starred == true) { %>
+            <input type="checkbox" name="starred" value="true" checked/>
+            <% } else { %>
+            <input type="checkbox" name="starred" value="true"/>
+        <% } %>
         <input type="hidden" name="id" value="<%= data.id %>">
         <input type="hidden" name="createdAt" value="<%= data.createdAt %>">
         <input type="hidden" name="updatedAt" value="<%= currentDate %>">

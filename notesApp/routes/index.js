@@ -1,20 +1,32 @@
 var express = require('express');
 // const { redirect } = require('express/lib/response');
 var router = express.Router();
+const fs = require('fs');
+var path = require('path');
 
-let note = [
-  {id: 0, 
-    title: "Getting Started", 
-    body: "You're just getting started!", 
-    color: "white", 
-    starred: true, 
-    createdAt: 0, 
-    updatedAt: 0
+
+let note = [];
+
+function writeFile(jsonData){
+  var filePath = path.join(__dirname, "../public/notes.json");
+  fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
+    if (err) {
+      console.error(err);
     }
-]
+    console.log('Data written to file.');
+  });
+}
+
+function readFile(){
+  var filePath = path.join(__dirname, "../public/notes.json");
+  const data = fs.readFileSync(filePath, 'utf8');
+  const note = JSON.parse(data);
+  return note;
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  var note= readFile();
   res.render('index', { title: 'Notes', data: note, currentDate: Date.now()});
 });
 
@@ -23,29 +35,48 @@ router.get('/notes/new', function(req, res, next) {
 });
 
 router.get('/notes/:id/edit', function(req, res, next) {
-  res.render('edit', { title: 'Notes', data: note, currentDate: Date.now()});
-});
-
-router.get('/notes/:id/star', function(req, res, next) {
   var id= req.params.id;
-  const thisNote = note.find(user => user.createdAt == id);
-  if(thisNote==null){
-    res.redirect('/');
-  } else {
-    res.render('index', { title: 'Notes', data: thisNote, currentDate: Date.now()});
-  }
+  var note=readFile();
+  const thisNote = note.find(n => n.createdAt == id);
+  res.render('edit', { title: 'Notes', data: thisNote, currentDate: Date.now()});
 });
 
-router.post('/notes', function(req, res, next) {
+// Couldn't get this to work as a toggle, so I added its function to the edit form
+// router.get('/notes/:id/star', function(req, res, next) {
+//   var id= req.params.id;
+//   var note=readFile();
+//   const thisNote = note.find(m => m.createdAt == id);
+//   var title= thisNote.title;
+//   var body= thisNote.body;
+//   var color= thisNote.color;
+//   if (thisNote.starred == false) {
+//     var starred = true;
+//   } else {
+//     var starred = false;
+//   }
+//   var createdAt= thisNote.createdAt;
+//   var updatedAt= currentDate;
+//   var newNote = {id:id, title:title, body:body, color:color, starred:starred, createdAt:createdAt, updatedAt:updatedAt}
+//   const index = note.findIndex(n => n.createdAt == id)
+//   if (index !== -1) {
+//     note[index] = newNote;
+//   }
+//   writeFile(note);
+//   res.render('index', { title: 'Notes', data: note, currentDate: Date.now()});
+// });
+
+router.post('/notes/new', function(req, res, next) {
   var id= req.body.updatedAt;
   var title= req.body.title;
   var body= req.body.body;
   var color= req.body.color;
-  var starred= req.body.starred;
+  var starred= req.body.starred ? true : false;
   var createdAt= req.body.updatedAt;
   var updatedAt= req.body.updatedAt;
   var newNote = {id:id, title:title, body:body, color:color, starred:starred, createdAt:createdAt, updatedAt:updatedAt}
+  var note=readFile();
   note.push(newNote);
+  writeFile(note);
   res.render('index', { title: 'Notes', data: note, currentDate: Date.now()});
 });
 
@@ -54,19 +85,24 @@ router.post('/notes/:id/edit', function(req, res, next) {
   var title= req.body.title;
   var body= req.body.body;
   var color= req.body.color;
-  var starred= req.body.starred;
+  var starred= req.body.starred ? true : false;
   var createdAt= req.body.id;
   var updatedAt= req.body.updatedAt;
-  // note = note.filter(thisNote => thisNote.id !== id); 
   var newNote = {id:id, title:title, body:body, color:color, starred:starred, createdAt:createdAt, updatedAt:updatedAt}
-  note.push(newNote);
+  var note=readFile();
+  const index = note.findIndex(n => n.createdAt == id)
+  if (index !== -1) {
+    note[index] = newNote;
+  }
+  writeFile(note);
   res.render('index', { title: 'Notes', data: note, currentDate: Date.now()});
 });
 
-router.post('/notes/:id', function(req, res, next) {
+router.get('/notes/:id/delete', function(req, res, next) {
   var id= req.params.id;
-  // Removes the object with firstname: id
+  var note=readFile();
   note = note.filter(notes => notes.createdAt !== id); 
+  writeFile(note);
   res.render('index', { title: 'Notes', data: note, currentDate: Date.now()});
 });
 
