@@ -17,6 +17,7 @@ var velocityX = 0;
 var velocityY = 0;
 var snakeBody = [];
 var foodX, foodY;
+var extraX, extraY;
 var gameOver = false;
 var score = 0;
 var highScore = localStorage.getItem("highScore") || 0;
@@ -72,6 +73,7 @@ function startGame() {
     document.getElementById("score").innerText = "Score: 0";
     document.getElementById("highScore").innerText = "High Score: " + highScore;
     placeFood();
+    placeExtra();
     clearInterval(gameInterval);
     var speed = Math.max(100 - score * 2, 50);
     gameInterval = setInterval(update, speed);
@@ -95,6 +97,19 @@ function update() {
     context.arc(foodX + blockSize / 2, foodY + blockSize / 2, blockSize / 2, 0, 2 * Math.PI);
     context.fill();
 
+    if (score%5==0) {
+        context.fillStyle = "gold";
+        context.beginPath();
+        context.arc(extraX + blockSize / 2, extraY + blockSize / 2, blockSize / 2, 0, 2 * Math.PI);
+        context.fill();
+    } else {
+        context.fillStyle = "red";
+        context.beginPath();
+        context.arc(extraX + blockSize / 2, extraY + blockSize / 2, blockSize / 2, 0, 2 * Math.PI);
+        context.fill();
+    }
+    
+
     context.strokeStyle = "#333";
     context.lineWidth = 1;
 
@@ -116,6 +131,18 @@ function update() {
         snakeBody.push([foodX, foodY]);
         placeFood();
         score++;
+        document.getElementById("score").innerText = "Score: " + score;
+    }
+
+    if (snakeX === extraX && snakeY === extraY) {
+        snakeBody.push([extraX, extraY]);
+        placeExtra();
+        if (score%5==0){
+            score++;
+            score++;
+        } else {
+            score++;
+        }
         document.getElementById("score").innerText = "Score: " + score;
     }
 
@@ -147,6 +174,10 @@ function update() {
     if (snakeX === foodX && snakeY === foodY) {
         playRandomAudio();
     }
+
+    if (snakeX === extraX && snakeY === extraY) {
+        playRandomAudio();
+    }
 }
 
 function changeDirection(e) {
@@ -170,9 +201,9 @@ function placeFood() {
     foodY = Math.floor(Math.random() * rows) * blockSize;
 }
 
-function placePowerUp() {
-    foodX = Math.floor(Math.random() * cols) * blockSize;
-    foodY = Math.floor(Math.random() * rows) * blockSize;
+function placeExtra() {
+    extraX = Math.floor(Math.random() * cols) * blockSize;
+    extraY = Math.floor(Math.random() * rows) * blockSize;
 }
 
 function endGame() {
