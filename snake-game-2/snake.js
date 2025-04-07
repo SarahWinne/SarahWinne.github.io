@@ -170,6 +170,11 @@ function placeFood() {
     foodY = Math.floor(Math.random() * rows) * blockSize;
 }
 
+function placePowerUp() {
+    foodX = Math.floor(Math.random() * cols) * blockSize;
+    foodY = Math.floor(Math.random() * rows) * blockSize;
+}
+
 function endGame() {
     gameOver = true;
     clearInterval(gameInterval);
@@ -201,8 +206,10 @@ function endGame() {
         highScore = score;
         localStorage.setItem("highScore", highScore);
         document.getElementById("highScore").innerText = "High Score: " + highScore;
+        alert("Game Over! New High Score: " + score);
+    } else {
+        alert("Game Over! Final Score: " + score);
     }
-    alert("Game Over! Final Score: " + score);
 
     function resizeCanvas() {
         const board = document.getElementById("board");
